@@ -31,4 +31,4 @@ npx expo start
 
 ## Demo
 
-/video/demo.mp4
+/demo/demo.mp4
