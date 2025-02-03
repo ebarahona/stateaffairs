@@ -35,7 +35,7 @@ const WorkoutItem: FC<Props> = ({ item, testID = 'WorkoutItem' }) => {
 
   const handleButton = (type: 'edit' | 'remove') => {
     if (type === 'edit') {
-      navigation.navigate('EditScreen', { workout: item });
+      navigation.navigate('Edit', { workout: item });
     } else {
       removeWorkout(item.id);
     }

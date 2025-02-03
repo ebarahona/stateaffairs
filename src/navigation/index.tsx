@@ -1,23 +1,14 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { HomeIcon, ListIcon, AddIcon } from '@components';
-
 import { AddScreen, EditScreen, HomeScreen, ListScreen } from '@screens';
 import { StoreProvider } from '@context';
 
-// Stack Navigator
-const Root = createStackNavigator<RootStackParamList>();
-
-type RootStackParamList = {
-  Add: undefined;
-  Edit: undefined;
-  Home: undefined;
-  List: undefined;
-};
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 /*
   ABSTRACTION AND REUSABILITY
@@ -33,40 +24,6 @@ type RootStackParamList = {
   Depending on the application size and complexity,
   the abstractions can be separated into different navigator directories/files if needed
 */
-const RootNavigation = () => {
-  return (
-    <StoreProvider>
-      <Root.Navigator
-        id={undefined}
-        initialRouteName='Home'
-        screenOptions={{
-          headerLeft: null,
-        }}
-      >
-        <Root.Screen
-          name='Home'
-          component={HomeScreen}
-          options={{ headerShown: false }}
-        />
-        <Root.Screen name='Add' component={AddScreen} />
-        <Root.Screen name='List' component={ListScreen} />
-        <Root.Screen name='Edit' component={EditScreen} />
-      </Root.Navigator>
-    </StoreProvider>
-  );
-};
-
-type BottomTabParamList = {
-  Add: undefined;
-  Home: undefined;
-  List: undefined;
-};
-const Tab = createBottomTabNavigator<BottomTabParamList>();
-
-// App Navigation
-// This is the main navigation container
-// allows to add multiple navigators
-// for authenticated and unauthenticated users
 
 const MyTabBar = () => (
   <Tab.Navigator id={undefined}>
@@ -74,31 +31,47 @@ const MyTabBar = () => (
       name='Home'
       component={HomeScreen}
       options={{
-        tabBarIcon: ({ color, size }) => <HomeIcon color={color} />,
+        tabBarIcon: ({ color }) => <HomeIcon color={color} />,
       }}
     />
     <Tab.Screen
       name='Add'
       component={AddScreen}
       options={{
-        tabBarIcon: ({ color, size }) => <AddIcon color={color} />,
+        tabBarIcon: ({ color }) => <AddIcon color={color} />,
       }}
     />
     <Tab.Screen
       name='List'
       component={ListScreen}
       options={{
-        tabBarIcon: ({ color, size }) => <ListIcon color={color} />,
+        tabBarIcon: ({ color }) => <ListIcon color={color} />,
       }}
     />
   </Tab.Navigator>
 );
 
+/*
+  App Navigation
+  - This is the main navigation container
+  - Allows multiple navigators (e.g., for authenticated vs. unauthenticated users)
+  - The Edit screen is presented as a modal
+*/
+
 const AppNavigation = () => {
   return (
     <StoreProvider>
       <NavigationContainer>
-        <MyTabBar />
+        <Stack.Navigator id={undefined} screenOptions={{ headerShown: false }}>
+          <Stack.Screen name='MainTabs' component={MyTabBar} />
+          <Stack.Screen
+            name='Edit'
+            component={EditScreen}
+            options={{
+              presentation: 'modal',
+            }}
+          />
+        </Stack.Navigator>
       </NavigationContainer>
     </StoreProvider>
   );
