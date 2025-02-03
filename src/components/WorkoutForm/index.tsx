@@ -53,7 +53,6 @@ const WorkoutForm = ({ workout = null }) => {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
     saveWorkout({
       id: workout?.id || null,
       type: data.type,

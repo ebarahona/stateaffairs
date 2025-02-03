@@ -29,6 +29,6 @@ npx expo start
 
 - View: ED-NOTES
 
-## Demo
+## Video Demo
 
 /demo/demo.mp4
