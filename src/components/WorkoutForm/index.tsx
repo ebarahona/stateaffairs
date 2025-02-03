@@ -45,6 +45,13 @@ const WorkoutForm = ({ workout = null }) => {
 
   const selectWorkoutType = (value) => setValue('type', value);
 
+  const clearForm = () => {
+    setValue('type', '');
+    setValue('duration', '');
+    setValue('distance', '');
+    setValue('date', new Date());
+  };
+
   const onSubmit = (data) => {
     console.log(data);
     saveWorkout({
@@ -55,6 +62,7 @@ const WorkoutForm = ({ workout = null }) => {
       date: data.date.toISOString(),
     });
 
+    clearForm();
     navigation.goBack();
   };
 
